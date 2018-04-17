@@ -11,22 +11,25 @@ const logPeers = (peer, infoHash, from, peersObj) => {
 }
 
 const logFroms = (peer, infoHash, from, fromObj) => {
-  // console.log('-->', from)
   const newFormsObj = Object.assign({}, fromObj)
   const fromID = generateFromID(from)
   newFormsObj[fromID] = from
   return newFormsObj
 }
 
-const dhtDiscovery = (parsedURI, waitTime = 30000) => {
-  return new Promise((resolve, reject) => {
+const scrapeDHT = (parsedURI, waitTime = 30000) => {
+  return new Promise((resolveScrape, rejectScrape) => {
     const dht = new DHT()
     try {
       dht.listen(20000, function() {
-        console.log('now listening')
+        console.log('now listening for DHT peers.')
       })
 
-      let dataObj = {}
+      const dataObj = {
+        peersObj: {},
+        fromsObj: {}
+      }
+
       dht.on('peer', (peer, infoHash, from) => {
         dataObj.peersObj = logPeers(peer, infoHash, from, dataObj.peersObj)
         dataObj.fromsObj = logFroms(peer, infoHash, from, dataObj.fromsObj)
@@ -38,16 +41,17 @@ const dhtDiscovery = (parsedURI, waitTime = 30000) => {
       setTimeout(
         dataObj => {
           dht.destroy(() => {
-            resolve(dataObj)
+            console.log('complete. closed DHT peer connection.')
+            resolveScrape(dataObj)
           })
         },
         waitTime,
         dataObj
       )
     } catch (err) {
-      reject(err)
+      rejectScrape(err)
     }
   })
 }
 
-module.exports = dhtDiscovery
+module.exports = scrapeDHT
