@@ -1,0 +1,21 @@
+{
+  "name": "scrapeTorrentStats",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "bittorrent-dht": "^8.2.0",
+    "bittorrent-tracker": "^9.7.0",
+    "magnet-uri": "^5.1.7"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chalk": "^2.3.2",
+    "mocha": "^5.1.0"
+  }
+}
