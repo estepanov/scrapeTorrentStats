@@ -17,7 +17,7 @@ const logFroms = (peer, infoHash, from, fromObj) => {
   return newFormsObj
 }
 
-const scrapeDHT = (parsedURI, waitTime = 30000) => {
+const dhtScrape = (parsedURI, waitTime = 30000) => {
   return new Promise((resolveScrape, rejectScrape) => {
     const dht = new DHT()
     try {
@@ -54,4 +54,4 @@ const scrapeDHT = (parsedURI, waitTime = 30000) => {
   })
 }
 
-module.exports = scrapeDHT
+module.exports = dhtScrape

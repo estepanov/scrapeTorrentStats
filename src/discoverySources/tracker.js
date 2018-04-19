@@ -3,7 +3,7 @@ const Tracker = require('bittorrent-tracker')
 // const rand = () => 68236478291210283
 const rand = () => Math.floor(Math.random() * 12333) + 123
 
-const scrapeTracker = (parsedURI, waitTime = 20000) => {
+const trackerScrape = (parsedURI, waitTime = 20000) => {
   const dataObj = {
     scrape: []
   }
@@ -45,4 +45,4 @@ const scrapeTracker = (parsedURI, waitTime = 20000) => {
   })
 }
 
-module.exports = scrapeTracker
+module.exports = trackerScrape
