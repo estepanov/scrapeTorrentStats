@@ -17,12 +17,12 @@ const logFroms = (peer, infoHash, from, fromObj) => {
   return newFormsObj
 }
 
-const dhtScrape = (parsedURI, waitTime = 30000) => {
+const dhtScrape = (parsedURI, waitTime = 30000, verbose = false) => {
   return new Promise((resolveScrape, rejectScrape) => {
     const dht = new DHT()
     try {
       dht.listen(20000, function() {
-        console.log('now listening for DHT peers.')
+        if (verbose) console.log('... now listening for DHT peers.')
       })
 
       const dataObj = {
@@ -41,7 +41,11 @@ const dhtScrape = (parsedURI, waitTime = 30000) => {
       setTimeout(
         dataObj => {
           dht.destroy(() => {
-            console.log('complete. closed DHT peer connection.')
+            if (verbose) {
+              console.log(
+                '... listening for DHT peers is complete. Closed DHT peer connection.'
+              )
+            }
             resolveScrape(dataObj)
           })
         },

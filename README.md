@@ -24,10 +24,10 @@ yarn add scrape-torrent-stats
 
 We have 3 ways to interact with this library. The Discovery function allows access to both DHT and Tracker scrapes. The other two ways are functions used to specifically to get data from DHT or trackers: getDHTData and getTrackerData. For more information and examples see our [examples folder](https://github.com/estepanov/scrapeTorrentStats/tree/master/examples).
 
-This example is for scraping DHT sources for a torrent. The `discover` function takes two arguments, both are required!. The first is a magnet URI as a string. The second argument is a configuration object. The configuration object MUST include a `source` key. The source key can have one of two values: `'dht'` or `'tracker'`. The configuration object has an optional `waitTime` key that can be set how long to check for peers.
+This example is for scraping DHT sources for a torrent. The `discover` function takes two arguments, both are required!. The first is a magnet URI as a string. The second argument is a configuration object. The configuration object MUST include a `source` key. The source key can have one of three values: `'both'`, `'dht'` or `'tracker'`. The configuration object has an optional `waitTime` key that can be set how long to check for peers. You can also enable verbose console logging of the service by setting `verbose` key to `true` inside of the configuration object. By default `verbose` is set to false.
 
 ```Javascript
-const { discover } = require('../index')
+const { discover } = require('scrape-torrent-stats')
 
 // ubuntu desktop magnet uri
 const uri =
@@ -40,6 +40,7 @@ const config = {
 
 discover(uri, config)
   .then(result => {
+    console.log(result)
     // Structure of result object can be seen further down
      })
   .catch(err => {
@@ -74,4 +75,22 @@ The `fromsObj` is an object full of peer sources. The keys for `fromsObj` are a 
     port: 6881,
     size: 339
   }
+```
+
+When using the Discover you can also enable verbose logging. For example:
+
+```Javascript
+const { discover } = require('scrape-torrent-stats')
+
+// ubuntu desktop magnet uri
+const uri =
+  'magnet:?xt=urn:btih:f07e0b0584745b7bcb35e98097488d34e68623d0&dn=ubuntu-17.10.1-desktop-amd64.iso'
+
+const config = {
+  source: 'dht',
+  waitTime: 10000, // 50 second wait before closing peer search
+  verbose: true,
+}
+
+discover(uri, config)
 ```
