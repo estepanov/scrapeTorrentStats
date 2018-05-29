@@ -35,7 +35,7 @@ const uri =
 
 const config = {
   source: 'dht',
-  waitTime: 10000 // 50 second wait before closing peer search
+  waitTime: 10000 // 10 second wait before closing peer search
 }
 
 discover(uri, config)
@@ -88,7 +88,7 @@ const uri =
 
 const config = {
   source: 'dht',
-  waitTime: 10000, // 50 second wait before closing peer search
+  waitTime: 10000, // 10 second wait before closing peer search
   verbose: true,
 }
 
