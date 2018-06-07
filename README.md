@@ -8,19 +8,31 @@ This project uses two great projects from the wizards that brought us [WebTorren
 
 This project uses native promises.
 
-## WARNING
+## _**WARNING**_
 
-`By running this code you are connecting to users and systems that are sharing whatever file(s) you are requesting. For free legally distributed content this is not an issue. For copyrighted content, this code base does NOT download any portion of the requested files. This means this software only attempts to discover peers and does not in any way initiate or support downloading or uploading of any files. This does not mean you will not show up on another system for having connected to or requested information from a system holding the requested content.`
+You run this code at your own risk. I provide no assurances or guarantees about this software, if you do not feel comfortable auditing the code, then you should not use this code.
+
+#### _**YOU MUST READ THE FOLLOWING:**_
+
+`By running this code you are connecting to users and systems that are sharing whatever file(s) you are requesting. For content that is free and legally permitted to be distributed anyone this is not an issue. For copyrighted content, this code base does NOT download any portion of the requested files, but it will still show up as having connected to the host of files. This means this software only attempts to discover peers and does not in any way initiate or support the downloading or uploading of any file(s). You will show up as having connected to, or requested, information from a system holding the requested content.`
 
 _**Run this at your own risk.**_
 
-## Example Use
+# Install
 
-lets install the component
+First install scrape-torrent-stats
 
 ```shell
 yarn add scrape-torrent-stats
 ```
+
+or
+
+```shell
+npm install --save scrape-torrent-stats
+```
+
+# Use
 
 We have 3 ways to interact with this library. The Discovery function allows access to both DHT and Tracker scrapes. The other two ways are functions used to specifically to get data from DHT or trackers: getDHTData and getTrackerData. For more information and examples see our [examples folder](https://github.com/estepanov/scrapeTorrentStats/tree/master/examples).
 
@@ -34,18 +46,18 @@ const uri =
   'magnet:?xt=urn:btih:f07e0b0584745b7bcb35e98097488d34e68623d0&dn=ubuntu-17.10.1-desktop-amd64.iso'
 
 const config = {
-  source: 'dht',
-  waitTime: 10000 // 10 second wait before closing peer search
+  source: 'dht', // can also be 'both' or 'tracker'
+  waitTime: 10000, // 10 second wait before closing peer search
 }
 
-discover(uri, config)
+discover(uri, config) // input must be uri in string
   .then(result => {
-    console.log(result)
+    console.log(result);
     // Structure of result object can be seen further down
      })
   .catch(err => {
-    console.error(err)
-  })
+    console.error(err);
+  });
 ```
 
 The `result` object returned above is structured as:
@@ -61,7 +73,7 @@ The `peersObj` is an object full of peers. The keys for `peersObj` are a series 
 
 ```Javascript
   {
-    host: '69.197.183.44',
+    host: '12.345.678.90',
     port: 39639
   }
 ```
@@ -70,7 +82,7 @@ The `fromsObj` is an object full of peer sources. The keys for `fromsObj` are a 
 
 ```Javascript
   {
-    address: '163.172.57.150',
+    address: '123.456.78.901',
     family: 'IPv4',
     port: 6881,
     size: 339
@@ -80,17 +92,33 @@ The `fromsObj` is an object full of peer sources. The keys for `fromsObj` are a 
 When using the Discover you can also enable verbose logging. For example:
 
 ```Javascript
-const { discover } = require('scrape-torrent-stats')
+const { discover } = require('scrape-torrent-stats');
 
 // ubuntu desktop magnet uri
 const uri =
-  'magnet:?xt=urn:btih:f07e0b0584745b7bcb35e98097488d34e68623d0&dn=ubuntu-17.10.1-desktop-amd64.iso'
+  'magnet:?xt=urn:btih:f07e0b0584745b7bcb35e98097488d34e68623d0&dn=ubuntu-17.10.1-desktop-amd64.iso';
 
 const config = {
   source: 'dht',
   waitTime: 10000, // 10 second wait before closing peer search
   verbose: true,
-}
+};
 
-discover(uri, config)
+discover(uri, config);
+```
+
+# Examples
+
+Besides the examples provided above, please see the examples folder in the root of this project for more resources.
+
+The `package.json` also provides a script with an example for your convenience. After installing `scrape-torrent-stats` run the following command:
+
+```shell
+yarn run example-discover
+```
+
+or if npm is your cup of tea
+
+```shell
+npm run example-discover
 ```
